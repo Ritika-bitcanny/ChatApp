@@ -1,9 +1,14 @@
 import React from 'react';
 import { View, Text, Button,StyleSheet } from 'react-native';
+import auth from '@react-native-firebase/auth';
 
 const Chat = ({ navigation }: any) => {
   const handleLogout = () => {
-    navigation.replace('Login'); 
+    auth().signOut().then(() =>navigation.replace('Login') )
+     .catch(error => {
+      console.error(error);
+    });
+     
   };
 
   return (

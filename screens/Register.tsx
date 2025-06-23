@@ -1,6 +1,9 @@
 import React ,{ useState } from "react";
 import { View,Text,StyleSheet,TextInput,Button, Alert } from "react-native";
 import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
+
+
 
 const Register =({navigation}: any)=>{
     const [email, setEmail] = useState('');
@@ -8,9 +11,14 @@ const Register =({navigation}: any)=>{
 
  const handleRegister = async () => {
   try {
-    await auth().createUserWithEmailAndPassword(email, pass);
-    console.log('User account created!');
-    navigation.replace('Chat');
+    const userCredential = await auth().createUserWithEmailAndPassword(email, pass);
+    const {uid} = userCredential.user;
+
+    await database().ref(`/users/${uid}`).set({
+       uid: uid,
+        email: email,
+    })
+    navigation.replace('Chatlist');
   } catch (error) {
     console.error('Registration failed:', error);
     Alert.alert('Registration Error');
@@ -28,8 +36,6 @@ return (
     </View>
     </View>
   );
-
-
 }
 
 const styles = StyleSheet.create({

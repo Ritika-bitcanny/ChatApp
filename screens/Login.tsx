@@ -11,7 +11,7 @@ const Login = ({navigation}: any) =>
         try {
             const userCredential = await auth().signInWithEmailAndPassword(email, pass);
             console.log("User signed in:", userCredential.user.email);
-            navigation.replace('Chat');
+            navigation.replace('Chatlist');
         } catch (error) {
             console.error("Login error:", error);
             Alert.alert('Login Error');
